@@ -1,7 +1,7 @@
-const ChatMessage = ({ id, name, messageTxt }) =>
+const ChatMessage = ({ id, name, messageTxt, msgNum }) =>
         (
-            <tr>
-                <td>{id}</td>
+            <tr id={id}>
+                <td>{msgNum}</td>
                 <td>{name}</td>
                 <td>{messageTxt}</td>
             </tr>

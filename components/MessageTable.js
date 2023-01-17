@@ -14,7 +14,7 @@ const MessageTable = ( {myMessages} ) => {
                 </tr>
             </thead>
             <tbody>
-                {myMessages.map(msg => <ChatMessage key={msg.id} {...msg} />)}
+                {myMessages.map((msg, index) => <ChatMessage key={msg.id} {...msg} msgNum={index+1} />)}
             </tbody>
         </Table>
     );
