@@ -1,13 +1,8 @@
 import Table from 'react-bootstrap/Table'
 import ChatMessage from '../components/ChatMessage'
 
-const MessageTable = () => {
+const MessageTable = ( {myMessages} ) => {
 
-
-    const myMessages = [
-        { id: 0, name: "David", messageTxt: "Hello world" },
-        { id: 1, name: "Paul", messageTxt: "Hi David" },
-        { id: 2, name: "George", messageTxt: "I love writing messages to my imaginary friends" }];
 
     return (
         <Table striped bordered hover>
