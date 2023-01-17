@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import App from '../components/App'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import NewMessageForm from '../components/NewMessageForm'
 import MessageTable from '../components/MessageTable'
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -20,6 +20,7 @@ export default function Home() {
             <Row className="justify-content-center">
                 <Col lg={8}>
                     <Header />
+                    <NewMessageForm />
                     <MessageTable />
                     <Footer />
                 </Col>
