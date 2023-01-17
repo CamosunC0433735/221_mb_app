@@ -1,4 +1,5 @@
 import Table from 'react-bootstrap/Table'
+import ChatMessage from '../components/ChatMessage'
 
 const MessageTable = () => {
 

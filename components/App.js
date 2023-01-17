@@ -1,5 +1,5 @@
 const App = () => {
-    const { Container, Col, Row } = ReactBootstrap;
+    //const { Container, Col, Row } = ReactBootstrap;
 
     return (
         <Container className="">
