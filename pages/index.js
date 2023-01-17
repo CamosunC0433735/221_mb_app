@@ -1,10 +1,10 @@
 import Head from 'next/head'
-
 import App from '../components/App'
 import Header from '../components/Header'
 import ChatMessage from '../components/ChatMessage'
 import Footer from '../components/Footer'
 import MessageTable from '../components/MessageTable'
+import { Container, Row, Col } from 'react-bootstrap'
 
 export default function Home() {
   return (

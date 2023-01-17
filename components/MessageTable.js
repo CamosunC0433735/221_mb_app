@@ -1,6 +1,8 @@
+import Table from 'react-bootstrap/Table'
+
 const MessageTable = () => {
 
-    const { Table } = ReactBootstrap;
+
     const myMessages = [
         { id: 0, name: "David", messageTxt: "Hello world" },
         { id: 1, name: "Paul", messageTxt: "Hi David" },
