@@ -11,24 +11,10 @@ const MessageBoard = ({ jsonData }) => {
     useState()
 
     const addNewMessage = async (values) => {
-
-        let msg = {"name": values.name, "messageTxt": values.messageTxt};
-        console.log(msg);
-
-        try{
-            axios.post('http://10.21.75.113:3004/api/messages', msg)
-            .then(
-                function(res){
-                    console.log(res);
-                    setMessages([values, ...myMessages]);
-                }).catch(function (error) {
-                    console.log(error);
-                });
-
-        } catch(err){
-
-        }
-        
+        try {
+            const { data } = await axios.post('http://10.21.75.113:3004/api/messages', values);
+            setMessages([data, ...myMessages]);
+        } catch(e) { console.error(e) }
     }
 
     return(
