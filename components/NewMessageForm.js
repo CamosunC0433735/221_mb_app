@@ -10,7 +10,7 @@ const schema = yup.object().shape({
     .max(15, 'Your name cannot be more than ${max} characters.')
     .matches(/^[A-Za-z]+$/, 'Invalid name. Use Upper and Lowercase letters only.')
     .required('Your name is required.'),
-  messageTxt: yup
+  msgText: yup
     .string()
     .trim()
     .min(2, 'Your message must be at least ${min} characters.')
@@ -42,7 +42,7 @@ const NewMessageForm = ({ addNewMessage }) => {
         <Formik
           validationSchema={schema}
           onSubmit={handleFormData}
-          initialValues={{ name: '', messageTxt: '' }}
+          initialValues={{ name: '', msgText: '' }}
         >
           {({
             handleSubmit,
@@ -68,18 +68,18 @@ const NewMessageForm = ({ addNewMessage }) => {
                     {errors.name}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} className="mt-2" controlId="messageTxt">
+                <Form.Group as={Col} className="mt-2" controlId="msgText">
                   <Form.Label>Enter Message:</Form.Label>
                   <Form.Control
                     placeholder="Your message"
-                    value={values.messageTxt}
+                    value={values.msgText}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    isValid={touched.messageTxt && !errors.messageTxt}
-                    isInvalid={touched.messageTxt && errors.messageTxt}
+                    isValid={touched.msgText && !errors.msgText}
+                    isInvalid={touched.msgText && errors.msgText}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.messageTxt}
+                    {errors.msgText}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Row>
