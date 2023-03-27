@@ -3,7 +3,7 @@ info:
   title: Message Board API
   version: "1.0"
 
-  
+
 components:
 
   securitySchemes:
@@ -11,8 +11,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT    # optional, arbitrary value for documentation purposes
-  security:
-    - bearerAuth: []         # use the same name as above
     
   schemas:
 
@@ -149,6 +147,8 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/message"
+      security:
+        - bearerAuth: []
       responses:
         "201":
           description: Created
