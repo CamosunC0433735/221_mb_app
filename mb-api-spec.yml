@@ -2,8 +2,20 @@ openapi: "3.1.0"
 info:
   title: Message Board API
   version: "1.0"
+
+  
 components:
+
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+  security:
+    - bearerAuth: []         # use the same name as above
+    
   schemas:
+
     message:
       type: object
       description: A message
@@ -28,8 +40,82 @@ components:
           maxLength: 30
           example: Hello World!
 
+    user:
+      type: object
+      description: A user
+      required:
+        - email
+        - username
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: |
+            The email address of the user
+          example: C0433735@online.camosun.bc.ca
+        username:
+          type: string
+          minLength: 2
+          maxLength: 15
+          pattern: "^[A-Za-z]+$"
+          description: |
+            The username, 
+            representing the user
+          example: DaveTheMedic
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 64
+          description: |
+            The user's password.
+          example: m&yG*r8tE*mPlE_PWD
+
+    login:
+      type: object
+      description: A user's login info
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: |
+            The username, 
+            representing the user.
+            Can also be an email address.
+          example: DaveTheMedic
+        password:
+          type: string
+          maxLength: 64
+          description: |
+            The user's password.
+          example: m&yG*r8tE*mPlE_PWD
+
+    userWithId:
+      allOf:
+        - $ref: '#/components/schemas/user'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: number
+              description: |
+                A number, representing the unique user
+              example: 15
+
+  responses:
+    "429TooManyRequests":
+            description : |
+              Too many requests. Rate limited.
+
 
 paths:
+
   /messages:
     description: All the messages
     get:
@@ -49,6 +135,9 @@ paths:
         "400":
           description: |
             Bad Request.
+        "429":
+          $ref: '#/components/responses/429TooManyRequests'
+        
     post:
       summary: Post a new message
       description: |
@@ -71,3 +160,72 @@ paths:
           description: |
             Bad Request.
             The message in the body of the Request is either missing or malformed.
+        "429":
+          $ref: '#/components/responses/429TooManyRequests'
+
+
+  /users:
+    description: All the users
+    post: 
+      summary: Post a new user
+      description: |
+        Add a new user to the API,
+        allowing you to log in as it in the future.
+      requestBody:
+        description: User's data
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+              
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/userWithId"
+        "400":
+          description: |
+            Bad Request.
+            The message in the body of the Request is either missing or malformed.
+        "403":
+          description: |
+            Username or email already exists.
+        "429":
+          $ref: '#/components/responses/429TooManyRequests'
+
+  /login:
+    description: Authenticate a user
+    post: 
+      summary: Authenticate a user
+      description: |
+        Check credentials against
+        email/password etc.
+      requestBody:
+        description: User's login data
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/login"
+              
+      responses:
+        "200":
+          description: Successfully logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                description: JWT Token
+                properties:
+                  token:
+                    type: string
+        "400":
+          description: |
+            Bad Request.
+            The message in the body of the Request is either missing or malformed.
+        "401":
+          description: |
+            Username or password don't match.
+        "429":
+          $ref: '#/components/responses/429TooManyRequests'
