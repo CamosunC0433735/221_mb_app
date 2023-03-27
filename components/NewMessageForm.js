@@ -3,22 +3,21 @@ import { Formik } from 'formik';
 import * as yup from "yup";
 
 const schema = yup.object().shape({
-  name: yup
+  username: yup
     .string()
     .trim()
-    .min(2, 'Your name must be at least ${min} characters.')
-    .max(15, 'Your name cannot be more than ${max} characters.')
-    .matches(/^[A-Za-z]+$/, 'Invalid name. Use Upper and Lowercase letters only.')
-    .required('Your name is required.'),
-  msgText: yup
+    .min(3, 'Your email/username must be at least ${min} characters.')
+    .max(15, 'Your email/username cannot be more than ${max} characters.')
+    .required('Username or email is required.'),
+  password: yup
     .string()
     .trim()
-    .min(2, 'Your message must be at least ${min} characters.')
-    .max(30, 'Your message must be no more than ${max} characters')
-    .required('A message is required.')
+    .min(8, 'Your password must be at least ${min} characters.')
+    .max(64, 'Your password must be no more than ${max} characters')
+    .required('A password is required.')
 });
 
-const NewMessageForm = ({ addNewMessage }) => {
+const LoginForm = ({ logInUser  }) => {
   
   const handleFormData = ( values, { resetForm, setSubmitting }) => {
       /* addNewMessage(values)
@@ -28,7 +27,7 @@ const NewMessageForm = ({ addNewMessage }) => {
      * collected from the Form and will be passed to
      * the Parent Component via this function.
      */
-    addNewMessage(values);
+    logInUser(values);
     // reset the Form to prevent a double submit
     resetForm();
     // sets isSubmitting to false to finish submission
@@ -36,13 +35,13 @@ const NewMessageForm = ({ addNewMessage }) => {
   }
   
   return (
-    <Card className="mb-3">
+    <Card className="mb-4">
       <Card.Body>
-        <Card.Title>Add a Message:</Card.Title>
+        <Card.Title>Log In:</Card.Title>
         <Formik
           validationSchema={schema}
           onSubmit={handleFormData}
-          initialValues={{ name: '', msgText: '' }}
+          initialValues={{ username: '', password: '' }}
         >
           {({
             handleSubmit,
@@ -54,38 +53,41 @@ const NewMessageForm = ({ addNewMessage }) => {
           }) => (
             <Form noValidate onSubmit={handleSubmit}>
               <Row className="align-items-center">
-                <Form.Group as={Col} xs={4} className="mt-2" controlId="name">
-                  <Form.Label>Enter a Name:</Form.Label>
+                <Form.Group as={Col} controlId="username">
+                  <Form.Label>Enter a Username or Email:</Form.Label>
                   <Form.Control
-                    placeholder="Your name"
-                    value={values.name}
+                    placeholder="Your Username or Email"
+                    value={values.username}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    isValid={touched.name && !errors.name}
-                    isInvalid={touched.name && errors.name}
+                    isValid={touched.username && !errors.username}
+                    isInvalid={touched.username && errors.username}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.name}
+                    {errors.username}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} className="mt-2" controlId="msgText">
-                  <Form.Label>Enter Message:</Form.Label>
+                <Form.Group as={Col} md={6} controlId="password">
+                  <Form.Label>Enter a Password:</Form.Label>
                   <Form.Control
-                    placeholder="Your message"
-                    value={values.msgText}
+                    type="password"
+                    placeholder="Your password"
+                    value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    isValid={touched.msgText && !errors.msgText}
-                    isInvalid={touched.msgText && errors.msgText}
+                    isValid={touched.password && !errors.password}
+                    isInvalid={touched.password && errors.password}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.msgText}
+                    {errors.password}
                   </Form.Control.Feedback>
                 </Form.Group>
+                <Col>
+                  <Button variant="primary" type="submit" className="mt-3">
+                    Submit
+                  </Button>
+                </Col>
               </Row>
-              <Button variant="primary" type="submit" className="mt-3">
-                Submit
-              </Button>
             </Form>
           )}
         </Formik>
@@ -94,4 +96,4 @@ const NewMessageForm = ({ addNewMessage }) => {
   );
 }
 
-export default NewMessageForm;
+export default LoginForm;
