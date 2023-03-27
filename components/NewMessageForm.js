@@ -3,21 +3,15 @@ import { Formik } from 'formik';
 import * as yup from "yup";
 
 const schema = yup.object().shape({
-  username: yup
+  msgText: yup
     .string()
     .trim()
-    .min(3, 'Your email/username must be at least ${min} characters.')
-    .max(15, 'Your email/username cannot be more than ${max} characters.')
-    .required('Username or email is required.'),
-  password: yup
-    .string()
-    .trim()
-    .min(8, 'Your password must be at least ${min} characters.')
-    .max(64, 'Your password must be no more than ${max} characters')
-    .required('A password is required.')
+    .min(2, 'Your message must be at least ${min} characters.')
+    .max(30, 'Your message must be no more than ${max} characters')
+    .required('A message is required.')
 });
 
-const LoginForm = ({ logInUser  }) => {
+const NewMessageForm = ({ addNewMessage }) => {
   
   const handleFormData = ( values, { resetForm, setSubmitting }) => {
       /* addNewMessage(values)
@@ -27,7 +21,7 @@ const LoginForm = ({ logInUser  }) => {
      * collected from the Form and will be passed to
      * the Parent Component via this function.
      */
-    logInUser(values);
+    addNewMessage(values);
     // reset the Form to prevent a double submit
     resetForm();
     // sets isSubmitting to false to finish submission
@@ -35,13 +29,13 @@ const LoginForm = ({ logInUser  }) => {
   }
   
   return (
-    <Card className="mb-4">
+    <Card className="mb-3">
       <Card.Body>
-        <Card.Title>Log In:</Card.Title>
+        <Card.Title>Add a Message:</Card.Title>
         <Formik
           validationSchema={schema}
           onSubmit={handleFormData}
-          initialValues={{ username: '', password: '' }}
+          initialValues={{ msgText: '' }}
         >
           {({
             handleSubmit,
@@ -53,33 +47,18 @@ const LoginForm = ({ logInUser  }) => {
           }) => (
             <Form noValidate onSubmit={handleSubmit}>
               <Row className="align-items-center">
-                <Form.Group as={Col} controlId="username">
-                  <Form.Label>Enter a Username or Email:</Form.Label>
+                <Form.Group as={Col} md={9} controlId="msgText">
+                  <Form.Label>Enter Message:</Form.Label>
                   <Form.Control
-                    placeholder="Your Username or Email"
-                    value={values.username}
+                    placeholder="Your message"
+                    value={values.msgText}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    isValid={touched.username && !errors.username}
-                    isInvalid={touched.username && errors.username}
+                    isValid={touched.msgText && !errors.msgText}
+                    isInvalid={touched.msgText && errors.msgText}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.username}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md={6} controlId="password">
-                  <Form.Label>Enter a Password:</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Your password"
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    isValid={touched.password && !errors.password}
-                    isInvalid={touched.password && errors.password}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.password}
+                    {errors.messageText}
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Col>
@@ -96,4 +75,4 @@ const LoginForm = ({ logInUser  }) => {
   );
 }
 
-export default LoginForm;
+export default NewMessageForm;
